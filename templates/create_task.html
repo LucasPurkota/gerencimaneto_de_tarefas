@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Nova Tarefa - Sistema de Tarefas{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Criar Nova Tarefa</h2>
+    <form method="POST" action="{{ url_for('create_task') }}" class="form">
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Descrição</label>
+            <textarea id="description" name="description" rows="3"></textarea>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="pendente">Pendente</option>
+                    <option value="em_andamento">Em Andamento</option>
+                    <option value="concluida">Concluída</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="assignee">Responsável</label>
+                <select id="assignee" name="assignee" required>
+                    {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="due_date">Data de Vencimento</label>
+            <input type="date" id="due_date" name="due_date">
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Criar Tarefa</button>
+            <a href="{{ url_for('tasks') }}" class="btn">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

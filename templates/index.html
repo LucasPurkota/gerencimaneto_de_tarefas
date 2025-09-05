@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Página Inicial - Sistema de Tarefas{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h2>Bem-vindo ao Task Manager</h2>
+    <p>Sistema de gerenciamento de tarefas para equipes</p>
+    <p>Organize, atribua e acompanhe tarefas de forma simples e eficiente.</p>
+    {% if 'user_id' not in session %}
+    <a href="{{ url_for('register') }}" class="btn btn-primary">Começar Agora</a>
+    {% else %}
+    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Ir para Dashboard</a>
+    {% endif %}
+</div>
+
+<div class="features">
+    <div class="feature">
+        <h3>Gestão de Equipe</h3>
+        <p>Atribua tarefas aos membros da sua equipe e acompanhe o progresso.</p>
+    </div>
+    <div class="feature">
+        <h3>Controle de Status</h3>
+        <p>Acompanhe o status das tarefas: pendentes, em andamento e concluídas.</p>
+    </div>
+    <div class="feature">
+        <h3>Dashboard Interativo</h3>
+        <p>Visualize métricas e estatísticas do progresso da sua equipe.</p>
+    </div>
+</div>
+{% endblock %}

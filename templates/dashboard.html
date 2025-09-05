@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Sistema de Tarefas{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>Dashboard</h2>
+    <a href="{{ url_for('create_task') }}" class="btn btn-primary">Nova Tarefa</a>
+</div>
+
+<div class="stats">
+    <div class="stat-card stat-pending">
+        <h3>Tarefas Pendentes</h3>
+        <p class="stat-number">{{ pending }}</p>
+    </div>
+    <div class="stat-card stat-progress">
+        <h3>Em Andamento</h3>
+        <p class="stat-number">{{ in_progress }}</p>
+    </div>
+    <div class="stat-card stat-completed">
+        <h3>Concluídas</h3>
+        <p class="stat-number">{{ completed }}</p>
+    </div>
+</div>
+
+<h3 class="section-title">Suas Tarefas Recentes</h3>
+<div class="tasks-container">
+    {% if tasks %}
+    <table class="tasks-table">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Status</th>
+                <th>Responsável</th>
+                <th>Data de Vencimento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks[:5] %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>
+                    <span class="status-badge status-{{ task.status }}">
+                        {{ task.status|replace('_', ' ')|title }}
+                    </span>
+                </td>
+                <td>{{ task.assignee.username }}</td>
+                <td>{{ task.due_date.strftime('%d/%m/%Y') if task.due_date else 'Não definida' }}</td>
+                <td>
+                    <a href="{{ url_for('edit_task', task_id=task.id) }}" class="btn btn-small">Editar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-center">
+        <a href="{{ url_for('tasks') }}" class="btn">Ver Todas as Tarefas</a>
+    </div>
+    {% else %}
+    <p class="no-tasks">Você não tem tarefas ainda. <a href="{{ url_for('create_task') }}">Crie uma agora!</a></p>
+    {% endif %}
+</div>
+{% endblock %}
