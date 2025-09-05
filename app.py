@@ -150,7 +150,7 @@ def edit_task(task_id):
     
     task = Task.query.get_or_404(task_id)
     
-    if task.author_id != session['user_id']:
+    if task.author_id != session['user_id'] and task.assignee_id != session['user_id']:
         flash('Você não tem permissão para editar esta tarefa.')
         return redirect(url_for('tasks'))
     
@@ -177,7 +177,7 @@ def delete_task(task_id):
     
     task = Task.query.get_or_404(task_id)
     
-    if task.author_id != session['user_id']:
+    if task.author_id != session['user_id'] and task.assignee_id != session['user_id']:
         flash('Você não tem permissão para excluir esta tarefa.')
         return redirect(url_for('tasks'))
     
